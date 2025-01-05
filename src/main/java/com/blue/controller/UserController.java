@@ -1,20 +1,26 @@
 package com.blue.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.blue.dto.UserRegisterDTO;
+import com.blue.result.Result;
+import com.blue.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-/**
- * @BelongsProject: SpringBootForWorkStation
- * @BelongsPackage: com.blue.controller
- * @Author: JuferBlue
- * @CreateTime: 2025-01-05  11:28
- * @Description: TODO
- * @Version: 1.0
- */
 @RestController
+@RequestMapping("/user")
+@Slf4j
 public class UserController {
-    @GetMapping("/user")
-    public String getUser(){
-        return "hello world nihao";
+    @Autowired
+    private UserService userService;
+    /**
+     * 用户注册
+     **/
+    @PostMapping("/register")
+    public Result register(@RequestBody UserRegisterDTO userRegisterDTO) {
+        log.info("用户注册：{}", userRegisterDTO);
+        userService.register(userRegisterDTO);
+
+        return Result.success();
     }
 }
