@@ -1,5 +1,6 @@
 package com.blue.controller;
 
+import com.blue.constant.EmailConstant;
 import com.blue.constant.JwtClaimsConstant;
 import com.blue.dto.UserLoginDTO;
 import com.blue.dto.UserRegisterDTO;
@@ -8,13 +9,16 @@ import com.blue.properties.JwtProperties;
 import com.blue.result.Result;
 import com.blue.service.UserService;
 import com.blue.utils.JwtUtil;
+import com.blue.utils.SendEmailUtil;
 import com.blue.vo.UserLoginVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/user")
@@ -24,6 +28,22 @@ public class UserController {
     private UserService userService;
     @Autowired
     private JwtProperties jwtProperties;
+    @Autowired
+    private RedisTemplate redisTemplate;
+    @Autowired
+    private SendEmailUtil sendEmailUtil;
+    /**
+     * 请求发送验证码
+     **/
+    @GetMapping("/getRegisterVerificationCode")
+    public Result getRegisterVerificationCode(@RequestParam String email) {
+        log.info("请求发送验证码：{}", email);
+        //发送验证码
+        String code = sendEmailUtil.sendEmail(email);
+        //将验证码存入redis,有效时间为五分钟
+        redisTemplate.opsForValue().set(email, code, EmailConstant.EMAIL_VERIFICATION_CODE_TIME, TimeUnit.MINUTES);
+        return Result.success();
+    }
     /**
      * 用户注册
      **/
@@ -57,8 +77,4 @@ public class UserController {
         return Result.success(userLoginVO);
     }
 
-    @GetMapping("/test")
-    public Result<String> test() {
-        return Result.success("测试成功");
-    }
 }

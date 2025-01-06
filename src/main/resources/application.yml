@@ -23,6 +23,7 @@ spring:
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 20
       filters: stat,wall,log4j
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -30,6 +31,26 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+  data:
+      redis:
+          host: localhost
+          port: 6379
+          password: 123456
+          database: 0
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: workstationverify@qq.com
+    password: qqgommlhiitlbgeh
+    properties:
+        mail:
+          smtp:
+            auth: true
+            starttls: true
+            ssl:
+              enable: true
+              trust: smtp.qq.com
+
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

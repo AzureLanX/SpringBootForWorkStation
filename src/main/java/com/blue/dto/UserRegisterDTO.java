@@ -9,5 +9,6 @@ public class UserRegisterDTO implements Serializable {
     private String account;
     private String password;
     private String email;
+    private String verificationCode;
 }
 
