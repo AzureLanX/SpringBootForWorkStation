@@ -11,6 +11,7 @@ import com.blue.service.UserService;
 import com.blue.utils.JwtUtil;
 import com.blue.utils.SendEmailUtil;
 import com.blue.vo.UserLoginVO;
+import com.blue.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -75,6 +76,22 @@ public class UserController {
                 .build();
         //返回
         return Result.success(userLoginVO);
+    }
+    /**
+     * 根据用户id查询用户信息
+     **/
+    @GetMapping("/getUserById")
+    public Result<UserVO> getUserById(@RequestParam Long id) {
+        log.info("根据用户id查询用户信息：{}", id);
+        User user = userService.getUserById(id);
+        //组装数据
+        UserVO userVO = UserVO.builder()
+                .id(user.getId())
+                .account(user.getAccount())
+                .avatarUrl(user.getAvatarUrl())
+                .email(user.getEmail())
+                .build();
+        return Result.success(userVO);
     }
 
 }

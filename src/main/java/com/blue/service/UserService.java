@@ -15,4 +15,9 @@ public interface UserService {
      * 用户登录
      **/
     User login(UserLoginDTO userLoginDTO);
+
+    /**
+     * 根据用户id查询用户信息
+     **/
+    User getUserById(Long userId);
 }

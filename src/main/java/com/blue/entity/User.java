@@ -29,6 +29,9 @@ public class User implements Serializable {
         //账号
         private String account;
 
+        //昵称
+        private String avatarUrl;
+
         //密码
         private String email;
 
@@ -37,5 +40,8 @@ public class User implements Serializable {
 
         //注册时间
         private LocalDateTime createTime;
+
+        //登录时间
+        private LocalDateTime lastLoginTime;
 
 }

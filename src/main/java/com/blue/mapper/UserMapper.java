@@ -20,4 +20,10 @@ public interface UserMapper {
      **/
     @Select("select * from users where account = #{account}")
     User getByAccount(String account);
+
+    /**
+     * 根据用户id查询用户信息
+     **/
+    @Select("select * from users where id = #{userId}")
+    User getById(Long userId);
 }
